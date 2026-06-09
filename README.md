@@ -91,7 +91,7 @@ python /data/00/user/user187/00.apps/QuIBL/QuIBL.py ./path_to_file/sampleInputFi
 - 去QUIBL的github里面下载相应脚本summaryFileAnalysis.R
 - 可以得到：显著支持渐渗的tree的数量占所有窗口树数量的比例；显著支持渐渗的tree的数量占与物种树不一致的窗口树的数量的比例
 ```
-Rscript summaryFileAnalysis.R -i output.1.all.txt -o Sorex > result.txt
+Rscript summaryFileAnalysis.R -i output.1.all.txt -o output > result.txt
 ```
 ②此外这里试图得到的是Extensive Genome-Wide Phylogenetic Discordance Is Due to Incomplete Lineage Sorting and Not Ongoing Introgression in a Rapidly Radiated Bryophyte Genus的Fig.5A
 每个物种组合的分析都会得到一个结果文件Output.csv
