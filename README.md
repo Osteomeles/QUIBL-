@@ -90,7 +90,7 @@ python /data/00/user/user187/00.apps/QuIBL/QuIBL.py ./path_to_file/sampleInputFi
 首先，下面有一些脚本需要判断拓扑是否和物种树一致，物种树定义为count数最多的拓扑；为避免count数最多的拓扑实际并不是物种树拓扑的情况出现，这里首先进行一个检查，是否count最多的就是物种树一致拓扑：
 - 列出count最多的拓扑
 ```
-find ../../allfile/run1 -name "*.Output.1.csv" | while read i                                                                 
+find ./ -name "*.Output.1.csv" | while read i                                                                 
 do
 awk -F',' 'NR==1 {next} {if($NF>max) {max=$NF; line=$0}} END {split(line, a, ","); print "triplet:", a[1], "outgroup:", a[2]}' $i
 done >> check.list
