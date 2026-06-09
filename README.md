@@ -34,7 +34,7 @@
     mkdir $CHR
   done < out_four_species_array.txt
   ```
-- 树文件：
+## 树文件：
 
   - 我这里用的是划窗口（5kb大小的窗口，窗口大小参考的是Genomic architecture and introgression shape a butterfly radiation，并且窗口再小的话我的服务器有点无法承受）得到的若干窗口树，每行一个nwk格式的树文件
 
