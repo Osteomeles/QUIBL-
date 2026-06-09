@@ -87,6 +87,19 @@ conda activate /data/00/user/user187/miniconda3/envs/QuIBL_env
 python /data/00/user/user187/00.apps/QuIBL/QuIBL.py ./path_to_file/sampleInputFile.txt
 ```
 # 分析结果文件&可视化
+首先，下面有一些脚本需要判断拓扑是否和物种树一致，物种树定义为count数最多的拓扑；为避免count数最多的拓扑实际并不是物种树拓扑的情况出现，这里首先进行一个检查，是否count最多的就是物种树一致拓扑：
+- 列出count最多的拓扑
+```
+find ../../allfile/run1 -name "*.Output.1.csv" | while read i                                                                 
+do
+awk -F',' 'NR==1 {next} {if($NF>max) {max=$NF; line=$0}} END {split(line, a, ","); print "triplet:", a[1], "outgroup:", a[2]}' $i
+done >> check.list
+```
+- 看count最多拓扑是否就是物种树一致拓扑，这里需要输入一个nwk格式的物种树（我用Astral从窗口树里面推断的物种树）；输出结果很直白可以解答我们的疑惑
+```
+python3 check_outgroup.py -i check.list -t species_tree.nwk -o result.txt
+```
+
 ①首先用QUIBL提供的一个脚本可以得到“有百分之多少的不一致位点（或全基因组所有位点）支持渐渗”
 - 去QUIBL的github里面下载相应脚本summaryFileAnalysis.R
 - 可以得到：显著支持渐渗的tree的数量占所有窗口树数量的比例；显著支持渐渗的tree的数量占与物种树不一致的窗口树的数量的比例
@@ -120,19 +133,6 @@ awk -F "," '{print $1","$2","$3","$4","$5","$6","$7","$8","$9","$10","$11","$9-$
 python3 getspeciespairs.py output.1.all.plus.txt species.pairs.txt
 ```
 去掉与物种树一致的拓扑行
-首先，下面这里判断是否物种树用的是count树最多则是物种树拓扑的逻辑，所以这里首先进行一个检查，是否count最多的就是物种树一致拓扑：
-- 列出count最多的拓扑
-```
-find ../../allfile/run1 -name "*.Output.1.csv" | while read i                                                                 
-do
-awk -F',' 'NR==1 {next} {if($NF>max) {max=$NF; line=$0}} END {split(line, a, ","); print "triplet:", a[1], "outgroup:", a[2]}' $i
-done >> check.list
-```
-- 看count最多拓扑是否就是物种树一致拓扑，这里需要输入一个nwk格式的物种树（我用Astral从窗口树里面推断的物种树）
-```
-python3 check_outgroup.py -i check.list -t species_tree.nwk -o result.txt
-```
-随后可以继续：去掉与物种树一致的拓扑行
 ```
 while read -r a b                                                                                                            
 do
