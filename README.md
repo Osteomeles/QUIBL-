@@ -39,22 +39,22 @@
   - 我这里用的是划窗口（5kb大小的窗口，窗口大小参考的是Genomic architecture and introgression shape a butterfly radiation，并且窗口再小的话我的服务器有点无法承受）得到的若干窗口树，每行一个nwk格式的树文件
 
   - 由于我的窗口树太多了，我随机抽样了5000棵树作为输入（这里可以参考不同的文章抽样的大小，树越多，运行的时间成本越大；这里我后续做了多次重复来避免结果的随机性
-
-```
-shuf -n 5000 window.tree > 5000.tree
-```
+ 
+  - ```
+    shuf -n 5000 window.tree > 5000.tree
+  - ```
   - 随后我需要把1.sub.tree针对不同的四物种组合提取各自的子树作为输入
-```
-while read -r a b c d                   
-do
-CHR="${a}_${b}_${c}"                          
-while read i     
-do
-echo "$i" | /data/00/user/user187/miniconda3/bin/nw_prune - -v $a $b $c Outgroup >> $CHR/1.sub.tree
-done < 5000.tree
-done < out_four_species_array.txt
-```
-  - 这里Outgroup是我外群的名字
+  - ```
+    while read -r a b c d
+    do
+    CHR="${a}_${b}_${c}"
+    while read i
+    do
+    echo "$i" | /data/00/user/user187/miniconda3/bin/nw_prune - -v $a $b $c Outgroup >> $CHR/1.sub.tree
+    done < 5000.tree
+    done < out_four_species_array.txt
+    ```
+    - 这里Outgroup是我外群的名字
 
 - 配置文件sampleInputFile.txt
   - 模板：
