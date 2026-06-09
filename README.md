@@ -43,7 +43,7 @@
 ```
 shuf -n 5000 window.tree > 5000.tree
 ```
-- 随后我需要把1.sub.tree针对不同的四物种组合提取各自的子树作为输入
+  - 随后我需要把1.sub.tree针对不同的四物种组合提取各自的子树作为输入
 ```
 while read -r a b c d                   
 do
@@ -54,7 +54,7 @@ echo "$i" | /data/00/user/user187/miniconda3/bin/nw_prune - -v $a $b $c Outgroup
 done < 5000.tree
 done < out_four_species_array.txt
 ```
-这里Outgroup是我外群的名字
+  - 这里Outgroup是我外群的名字
 
 - 配置文件sampleInputFile.txt
   - 模板：
@@ -75,7 +75,7 @@ maxcores:10
 [Output]
 OutputPath: /path_to_file/Output.1.csv
 ```
-写一个循环给每个四物种组合生成配置文件放入各自的文件夹
+  - 写一个循环给每个四物种组合生成配置文件放入各自的文件夹
 
 # 运行
 - 需要按照QUIBL的github里面的教程构建环境，这里我的环境在lzu
