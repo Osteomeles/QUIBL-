@@ -100,13 +100,7 @@ done >> check.list
 python3 check_outgroup.py -i check.list -t species_tree.nwk -o result.txt
 ```
 
-①首先用QUIBL提供的一个脚本可以得到“有百分之多少的不一致位点（或全基因组所有位点）支持渐渗”
-- 去QUIBL的github里面下载相应脚本summaryFileAnalysis.R
-- 可以得到：显著支持渐渗的tree的数量占所有窗口树数量的比例；显著支持渐渗的tree的数量占与物种树不一致的窗口树的数量的比例
-```
-Rscript summaryFileAnalysis.R -i output.1.all.txt -o output > result.txt
-```
-②此外这里试图得到的是Extensive Genome-Wide Phylogenetic Discordance Is Due to Incomplete Lineage Sorting and Not Ongoing Introgression in a Rapidly Radiated Bryophyte Genus的Fig.5A
+先把所有的物种组合的结果都整合为一个：
 每个物种组合的分析都会得到一个结果文件Output.csv
 共有这些列：triplet,outgroup,C1,C2,mixprop1,mixprop2,lambda2Dist,lambda1Dist,BIC2Dist,BIC1Dist,count
 - 具体意义参考：https://github.com/miriammiyagi/QuIBL
@@ -119,7 +113,17 @@ Rscript summaryFileAnalysis.R -i output.1.all.txt -o output > result.txt
 ```
 dos2unix output.1.all.txt
 ```
-随后计算三个数值，diffBIC,totalILSProp,totalIntroProp，把他们加载txt文件后面得到一个新文件
+
+①首先用QUIBL提供的一个脚本可以得到“有百分之多少的不一致位点（或全基因组所有位点）支持渐渗”
+- 去QUIBL的github里面下载相应脚本summaryFileAnalysis.R
+- 可以得到：显著支持渐渗的tree的数量占所有窗口树数量的比例；显著支持渐渗的tree的数量占与物种树不一致的窗口树的数量的比例
+```
+Rscript summaryFileAnalysis.R -i output.1.all.txt -o output > result.txt
+```
+
+②此外这里试图得到的是Extensive Genome-Wide Phylogenetic Discordance Is Due to Incomplete Lineage Sorting and Not Ongoing Introgression in a Rapidly Radiated Bryophyte Genus的Fig.5A
+
+得到output.1.all.txt后计算三个数值，diffBIC,totalILSProp,totalIntroProp，把他们加载txt文件后面得到一个新文件
 - diffBIC=BIC2-BIC1，当diffBIC大于10，说明ILSonly模型显著更优；当diffBIC小于-10，说明有渐渗的模型显著优于ILSonly模型
 - totalILSProp = (mixprop1*count)/num_alltree
   - 这里num_alltree是所有的窗口树，因为我一共抽样5000棵树，故我直接用的5000
