@@ -107,6 +107,7 @@ dos2unix output.1.all.txt
 随后计算三个数值，diffBIC,totalILSProp,totalIntroProp，把他们加载txt文件后面得到一个新文件
 - diffBIC=BIC2-BIC1，当diffBIC大于10，说明ILSonly模型显著更优；当diffBIC小于-10，说明有渐渗的模型显著优于ILSonly模型
 - totalILSProp = (mixprop1*count)/num_alltree
+  - 这里num_alltree是所有的窗口树，因为我一共抽样5000棵树，故我直接用的5000
 - totalIntroProp = (mixprop2*count)/num_alltree
 ```
 awk -F "," '{print $1","$2","$3","$4","$5","$6","$7","$8","$9","$10","$11","$9-$10","$5*$11/5000","$6*$11/5000}' output.1.all.txt >> output.1.all.plus.txt
