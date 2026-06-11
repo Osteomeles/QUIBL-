@@ -39,7 +39,7 @@
 
 我这里用的是划窗口（5kb大小的窗口，窗口大小参考的是Genomic architecture and introgression shape a butterfly radiation，并且窗口再小的话我的服务器有点无法承受）得到的若干窗口树，每行一个nwk格式的树文件
 
-由于我的窗口树太多了，我随机抽样了5000棵树作为输入（这里可以参考不同的文章抽样的大小，树越多，运行的时间成本越大；这里我后续做了多次重复来避免结果的随机性
+由于我的窗口树太多了，我随机抽样了5000棵树作为输入（这里可以参考不同的文章抽样的大小，树越多，运行的时间成本越大；这里我后续做了多次重复来避免结果的随机性）（并且也可以以减轻位点之间的连锁）
  
 ```
     shuf -n 5000 window.tree > 5000.tree
@@ -197,7 +197,10 @@ sed -i 's|NA|0|g' all.species_pairs.totalILSProp.txt all.species_pairs.totalIntr
 ```
 mkdir plot_ils_intro
 cd plot_ils_intro
+# 这个脚本的颜色两极是固定的0/1，如果数值都很小会导致颜色都很浅
 python3 plot.ILS.intro.py all.species_pairs.totalIntroProp.txt all.species_pairs.totalILSProp.txt species.list ILS.intro.plot
+# 这个脚本会以最大值为一个极值
+python3 plot.ILS.intro.2.py all.species_pairs.totalIntroProp.txt all.species_pairs.totalILSProp.txt species.list ILS.intro.plot.2
 ```
 - 这里species.list是一个一列的文件，每行一个物种名，是为了固定绘图时物种排列顺序
 - 这里和Fig.5A不同的是，上三角和下三角都是QUIBL的输出
