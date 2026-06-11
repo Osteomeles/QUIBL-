@@ -147,13 +147,19 @@ CHR="${a}"_"${b}"
 mkdir $CHR                                                                           
 done < species.pairs.txt  
 
-head -n 1 output.1.all.plus.txt > head 
+head -n 1 output.1.all.plus.txt > head
 
-while read -r a b                              
+while read -r a b c d                          
+do
+awk -F "," -v val="$b" -v val2="$d" '$1 == val && $2 != val2' output.1.all.plus.txt >> output.1.all.plus.dis.txt.tmp
+done < ../check.list
+
+cat head output.1.all.plus.dis.txt.tmp > output.1.all.plus.dis.txt
+
+while read -r a b                                                                                                            
 do
 CHR="${a}"_"${b}"  
-python3 filter3.py output.1.all.plus.txt ./$CHR/output.1.all.plus.$a.$b.txt.tmp $a $b
-cat head ./$CHR/output.1.all.plus.$a.$b.txt.tmp >> $CHR/output.1.all.plus.$a.$b.txt
+python3 filter_triplet.py output.1.all.plus.dis.txt $a $b ./$CHR/output.1.all.plus.$a.$b.txt
 done < species.pairs.txt
 ```
 把第十二列diffBIC小于-10也就是显著支持渐渗的拓扑行筛选出来，然后把这些行的第十四列totalIntroProp求平均，得到每个物种对的渐渗位点平均总比例
