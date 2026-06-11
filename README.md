@@ -197,5 +197,40 @@ python3 plot.ILS.intro.py all.species_pairs.totalIntroProp.txt all.species_pairs
 - 这里species.list是一个一列的文件，每行一个物种名，是为了固定绘图时物种排列顺序
 - 这里和Fig.5A不同的是，上三角和下三角都是QUIBL的输出
 
+③这里做一个类似的图，只是totalILSProp、totalIntroProp两个比值的分母变成了全部不一致树，而不是所有的树
+后面用到的species.pairs.txt和②里面的生成方式一样可以直接用output.1.all.txt去生成
+首先去得到去除一致树的结果文件
+```
+while read -r a b c d                                                                                                        
+do
+awk -F "," -v val="$b" -v val2="$d" '$1 == val && $2 != val2' output.1.all.txt >> output.1.all.dis.txt.tmp
+done < ../check.list
+
+head -n 1 output.1.all.txt > head
+
+cat head output.1.all.dis.txt.tmp > output.1.all.dis.txt
+```
+随后去给每行拓扑加三列同样是diffBIC,totalILSProp,totalIntroProp
+这里diffBIC保持不变，totalILSProp,totalIntroProp的分母变成all_discordant_tree，也就是两个不一致树拓扑行的count的加和
+```
+python3 add_quibl_col.py output.1.all.dis.txt output.1.all.plus.dis.txt
+```
+接下来的做法就和之前一样了，首先把相同物种对的分到各自的文件夹下面
+```
+while read -r a b                                                                                                            
+do
+CHR="${a}"_"${b}"                                                                                 
+mkdir $CHR                                                                                 
+done < species.pairs.txt
+
+while read -r a b                                                                                                            
+do
+CHR="${a}"_"${b}"                                                                                 
+python3 filter_triplet.py output.1.all.plus.dis.txt $a $b ./$CHR/output.1.all.plus.$a.$b.txt
+done < species.pairs.txt
+```
+后续直接复刻“把第十二列diffBIC小于-10也就是显著支持渐渗的拓扑行筛选出来，然后把这些行的第十四列totalIntroProp求平均，得到每个物种对的渐渗位点平均总比例”后的内容即可
+
+
 # 注
 这里作图的逻辑是根据Extensive Genome-Wide Phylogenetic Discordance Is Due to Incomplete Lineage Sorting and Not Ongoing Introgression in a Rapidly Radiated Bryophyte Genus的附表推理出来的，可能有不准确的地方
