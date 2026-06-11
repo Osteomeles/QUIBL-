@@ -203,7 +203,9 @@ python3 plot.ILS.intro.py all.species_pairs.totalIntroProp.txt all.species_pairs
 - 这里和Fig.5A不同的是，上三角和下三角都是QUIBL的输出
 
 ③这里做一个类似的图，只是totalILSProp、totalIntroProp两个比值的分母变成了全部不一致树，而不是所有的树
+
 后面用到的species.pairs.txt和②里面的生成方式一样可以直接用output.1.all.txt去生成
+
 首先去得到去除一致树的结果文件
 ```
 while read -r a b c d                                                                                                        
